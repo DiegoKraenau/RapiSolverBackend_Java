@@ -13,10 +13,12 @@ import com.rapisolver.reservation.service.services.ReservationService;
 import com.rapisolver.reservation.service.util.LocationConverter;
 import com.rapisolver.reservation.service.util.ReservationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
