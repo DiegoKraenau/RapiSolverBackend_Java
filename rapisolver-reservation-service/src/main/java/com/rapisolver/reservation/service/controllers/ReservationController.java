@@ -3,6 +3,7 @@ package com.rapisolver.reservation.service.controllers;
 import com.rapisolver.reservation.service.dtos.ReservationRequestDTO;
 import com.rapisolver.reservation.service.dtos.ReservationResponseDTO;
 import com.rapisolver.reservation.service.dtos.UpdateReservationDTO;
+import com.rapisolver.reservation.service.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
