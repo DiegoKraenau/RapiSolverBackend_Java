@@ -25,9 +25,4 @@ public class Category {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    //Prueba git
-    //Prueba git 2
-    //Prueba git 3
-    //Prueba git 4
-    //Prueba git 5
 }
