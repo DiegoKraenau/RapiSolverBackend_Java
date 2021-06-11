@@ -1,6 +1,7 @@
 package com.rapisolver.service.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USERS_SERVICES")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserService {
@@ -18,4 +20,11 @@ public class UserService {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "DETAIL")
+    private String detail;
+
+    @Column(name = "PRICE", nullable = false)
+    private double price;
+
+    //TODO: Agregar relacion con Service y User
 }
