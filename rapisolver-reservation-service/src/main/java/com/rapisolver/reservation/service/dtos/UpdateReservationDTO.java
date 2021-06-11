@@ -2,11 +2,12 @@ package com.rapisolver.reservation.service.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Date;
 
 @Setter
 @Getter
-public class ReservationResponseDTO {
+public class UpdateReservationDTO {
     private String country;
 
     private String state;
