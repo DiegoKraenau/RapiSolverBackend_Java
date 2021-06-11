@@ -1,8 +1,8 @@
 package com.rapisolver.reservation.service.controllers;
 
-import com.rapisolver.reservation.service.dtos.ReservationRequestDTO;
-import com.rapisolver.reservation.service.dtos.ReservationResponseDTO;
-import com.rapisolver.reservation.service.dtos.UpdateReservationDTO;
+import com.rapisolver.reservation.service.dtos.*;
+import com.rapisolver.reservation.service.exceptions.RapisolverException;
+import com.rapisolver.reservation.service.response.RapisolverResponse;
 import com.rapisolver.reservation.service.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,26 +18,94 @@ public class ReservationController {
     ReservationService reservationService;
 
     @GetMapping(value = "/reservation")
-    public ResponseEntity<List<ReservationResponseDTO>> getAll(){
-        return new ResponseEntity<>(reservationService.findAll(), HttpStatus.OK);
+    public RapisolverResponse<List<ReservationDTO>> getAll(){
+        List<ReservationDTO> reservationDTOS;
+        try {
+            reservationDTOS = reservationService.findAll();
+        } catch (RapisolverException e) {
+            return new RapisolverResponse<>(
+                    e.getCode(),
+                    e.getStatus(),
+                    e.getMessage()
+            );
+        }
+        return new RapisolverResponse<>(
+                200,
+                "OK",
+                "Lista de reservas",
+                reservationDTOS
+        );
     }
-    @GetMapping(value = "/reservation/{reservationId}")
-    public ResponseEntity<List<ReservationResponseDTO>> getByReservationId(@PathVariable Long reservationId){
-        return new ResponseEntity<>(reservationService.findById(reservationId), HttpStatus.OK);
+    @GetMapping("/reservation/{reservationId}")
+    private RapisolverResponse<ReservationDTO> getByReservationId(
+            @PathVariable Long reservationId
+    ) {
+        ReservationDTO reservationDTO;
+        try {
+            reservationDTO = reservationService.findById(reservationId);
+        } catch (RapisolverException e) {
+            return new RapisolverResponse<>(
+                    e.getCode(),
+                    e.getStatus(),
+                    e.getMessage()
+            );
+        }
+        return new RapisolverResponse<>(
+                200,
+                "OK",
+                "Reservacion encontrada",
+                reservationDTO
+        );
     }
-    @PostMapping(value = "/reservation")
-    public ResponseEntity<ReservationResponseDTO> saveReservation(@RequestBody @Valid ReservationRequestDTO reservation){
-        ReservationResponseDTO reservationResponse = reservationService.createReservation(reservation);
-        return new ResponseEntity<>(reservationResponse,HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/createReservation")
+    public RapisolverResponse<ReservationDTO> saveReservation(@RequestBody @Valid CreateReservationDTO createReservationDTO) throws RapisolverException {
+        return new RapisolverResponse<>(
+                200,
+                String.valueOf(HttpStatus.OK),
+                "OK",
+                reservationService.createReservation(createReservationDTO)
+        );
     }
-    @PutMapping(value = "/reservation/{reservationId}")
-    public ResponseEntity<ReservationResponseDTO> updateReservationById(@PathVariable Long reservationId, @RequestBody @Valid UpdateReservationDTO updateReservationDTO){
-        ReservationResponseDTO reservationResponseDTO = reservationService.updateReservation(reservationId,updateReservationDTO);
-        return new ResponseEntity<>(reservationResponseDTO,HttpStatus.OK);
+    @PutMapping("/reservation/{reservationId}")
+    private RapisolverResponse<ReservationDTO> updateReservationById(
+            @PathVariable Long reservationId,
+            @RequestBody @Valid UpdateReservationDTO updateReservationDTO
+    ) {
+        ReservationDTO reservationDTO;
+        try {
+            reservationDTO =
+                    reservationService.updateReservation(
+                            reservationId,
+                            updateReservationDTO
+                    );
+        } catch (RapisolverException e) {
+            return new RapisolverResponse<>(
+                    e.getCode(),
+                    e.getStatus(),
+                    e.getMessage()
+            );
+        }
+
+        return new RapisolverResponse<>(
+                200,
+                "OK",
+                "Reservacion actualizada correctamente",
+                reservationDTO
+        );
     }
-    @DeleteMapping(value = "/reservation/{reservationId}")
-    public ResponseEntity<Void> deleteReservationById(@RequestParam Long reservationId){
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/reservation/{reservationId}")
+    public RapisolverResponse<ReservationDTO> deleteReservation(@RequestParam Long reservationId) throws RapisolverException {
+        ReservationDTO reservationDTO;
+        reservationDTO = reservationService.findById(reservationId);
         reservationService.deleteReservation(reservationId);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new RapisolverResponse<>(
+                200,
+                "OK",
+                "Reservacion borrada correctamente",
+                reservationDTO
+        );
     }
 }

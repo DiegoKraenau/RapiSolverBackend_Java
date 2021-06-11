@@ -26,11 +26,14 @@ public class Location {
     @Column(name = "CITY", length = 20, nullable = false)
     private String city;
 
+    @Column(length = 70, nullable = false)
+    private String address;
     /* TODO = PONER LA RELACION CON RESERVATIONS*/
 
     public Location(String country, String state, String city, String address) {
         this.country = country;
         this.state = state;
         this.city = city;
+        this.address = address;
     }
 }
