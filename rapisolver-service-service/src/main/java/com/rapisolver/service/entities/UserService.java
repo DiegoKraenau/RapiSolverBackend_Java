@@ -26,5 +26,8 @@ public class UserService {
     @Column(name = "PRICE", nullable = false)
     private double price;
 
-    //TODO: Agregar relacion con Service y User
+    @Column(nullable = false)
+    private Long userId;
+
+    //TODO: Agregar relacion con Service
 }
