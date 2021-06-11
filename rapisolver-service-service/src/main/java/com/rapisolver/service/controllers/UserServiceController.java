@@ -18,17 +18,17 @@ public class UserServiceController {
     private UserServiceService service;
 
     @PostMapping
-    public ResponseEntity<UserServiceDTO> create(@RequestBody CreateUserServiceDTO c) throws RuntimeException {
+    public ResponseEntity<UserServiceDTO> create(@RequestBody CreateUserServiceDTO c) {
         return new ResponseEntity<>(service.create(c), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserServiceDTO>> getAll() throws RuntimeException {
+    public ResponseEntity<List<UserServiceDTO>> getAll()  {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserServiceDTO> getById(@PathVariable Long id) throws RuntimeException {
+    public ResponseEntity<UserServiceDTO> getById(@PathVariable Long id)  {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
