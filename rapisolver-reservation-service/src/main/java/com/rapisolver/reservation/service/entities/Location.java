@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 @Table(name="LOCATION")
 @Entity
 public class Location {
@@ -19,12 +17,20 @@ public class Location {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "COUNTRY")
+    @Column(name = "COUNTRY",length = 20, nullable = false)
     private String country;
 
-    @Column(name = "STATE")
+    @Column(name = "STATE", length = 20, nullable = false)
     private String state;
 
-    @Column(name = "CITY")
+    @Column(name = "CITY", length = 20, nullable = false)
     private String city;
+
+    /* TODO = PONER LA RELACION CON RESERVATIONS*/
+
+    public Location(String country, String state, String city, String address) {
+        this.country = country;
+        this.state = state;
+        this.city = city;
+    }
 }
