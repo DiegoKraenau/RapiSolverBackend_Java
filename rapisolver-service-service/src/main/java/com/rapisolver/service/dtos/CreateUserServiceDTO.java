@@ -8,6 +8,9 @@ import lombok.Setter;
 public class CreateUserServiceDTO {
     private String detail;
     private double price;
+    private String serviceName;
+    private String categoryName;
+    private Long supplierId;
 
     //TODO: Agregar atributos de relacion
 }

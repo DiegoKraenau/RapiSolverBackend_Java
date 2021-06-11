@@ -2,7 +2,13 @@ package com.rapisolver.service.services.impl;
 
 import com.rapisolver.service.dtos.CreateUserServiceDTO;
 import com.rapisolver.service.dtos.UserServiceDTO;
+import com.rapisolver.service.entities.Category;
+import com.rapisolver.service.entities.RapiService;
 import com.rapisolver.service.entities.UserService;
+import com.rapisolver.service.exceptions.ServiceInternalErrorException;
+import com.rapisolver.service.exceptions.ServiceNotFoundException;
+import com.rapisolver.service.repositories.CategoryRepository;
+import com.rapisolver.service.repositories.ServiceRepository;
 import com.rapisolver.service.repositories.UserServiceRepository;
 import com.rapisolver.service.services.UserServiceService;
 import org.modelmapper.ModelMapper;
@@ -10,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,10 +28,31 @@ public class UserServiceServiceImpl implements UserServiceService {
     @Autowired
     private UserServiceRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ServiceRepository serviceRepository;
+
     @Override
     public UserServiceDTO create(CreateUserServiceDTO c) throws RuntimeException {
+        // Category Validation
+        Category category = categoryRepository.findByName(c.getCategoryName()).orElseThrow(()-> new ServiceNotFoundException("CATEGORY_NOT_FOUND"));
 
         try {
+
+            // Supplier validation
+            // TODO: Implement communication with supplier service
+
+            //Create Service
+            RapiService service = RapiService.builder()
+                            .name(c.getServiceName())
+                            .category(category)
+                            .build();
+            service = serviceRepository.save(service);
+
+            //Create UserService
+
             UserService userService = UserService.builder()
                     .detail(c.getDetail())
                     .price(c.getPrice())
