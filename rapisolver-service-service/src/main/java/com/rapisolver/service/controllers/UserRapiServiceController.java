@@ -1,8 +1,8 @@
 package com.rapisolver.service.controllers;
 
-import com.rapisolver.service.dtos.CreateUserServiceDTO;
-import com.rapisolver.service.dtos.UserServiceDTO;
-import com.rapisolver.service.services.UserServiceService;
+import com.rapisolver.service.dtos.CreateUserRapiServiceDTO;
+import com.rapisolver.service.dtos.UserRapiServiceDTO;
+import com.rapisolver.service.services.UserRapiServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +12,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "users-services")
-public class UserServiceController {
+public class UserRapiServiceController {
 
     @Autowired
-    private UserServiceService service;
+    private UserRapiServiceService service;
 
     @PostMapping
-    public ResponseEntity<UserServiceDTO> create(@RequestBody CreateUserServiceDTO c) {
+    public ResponseEntity<UserRapiServiceDTO> create(@RequestBody CreateUserRapiServiceDTO c) throws RuntimeException {
         return new ResponseEntity<>(service.create(c), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserServiceDTO>> getAll()  {
+    public ResponseEntity<List<UserRapiServiceDTO>> getAll() throws RuntimeException {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserServiceDTO> getById(@PathVariable Long id)  {
+    public ResponseEntity<UserRapiServiceDTO> getById(@PathVariable Long id) throws RuntimeException {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 

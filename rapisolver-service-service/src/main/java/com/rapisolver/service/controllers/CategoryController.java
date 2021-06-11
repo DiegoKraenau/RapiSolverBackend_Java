@@ -17,7 +17,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping(value = "category")
-    public ResponseEntity<CategoryResponseDTO> createAccount(@RequestBody CategoryRequestDTO category) {
+    public ResponseEntity<CategoryResponseDTO> createAccount(@RequestBody CategoryRequestDTO category) throws RuntimeException {
         CategoryResponseDTO categoryResponse = categoryService.createCategory(category);
         return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
     }

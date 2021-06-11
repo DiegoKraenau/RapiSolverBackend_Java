@@ -7,6 +7,6 @@ import com.rapisolver.service.dtos.ServiceResponseDTO;
 
 import java.util.concurrent.ExecutionException;
 
-public interface ServiceService {
+public interface RapiServiceService {
     ServiceResponseDTO createService(ServiceRequestDTO serviceRequestDTO) throws RuntimeException;
 }

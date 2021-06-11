@@ -5,12 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserServiceDTO {
+public class CreateUserRapiServiceDTO {
     private String detail;
     private double price;
     private String serviceName;
     private String categoryName;
-    private Long supplierId;
+    private Long userId;
 
     //TODO: Agregar atributos de relacion
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserService {
+public class UserRapiService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,7 @@ public class UserService {
     @Column(nullable = false)
     private Long userId;
 
-    //TODO: Agregar relacion con Service
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
+    private RapiService service;
 }

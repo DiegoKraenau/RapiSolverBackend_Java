@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserServiceDTO {
+public class UserRapiServiceDTO {
     private Long id;
     private String detail;
     private double price;
