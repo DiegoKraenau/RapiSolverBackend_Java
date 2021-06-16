@@ -1,0 +1,1 @@
+INSERT INTO CATEGORY (DESCRIPTION,NAME) VALUES ('Electricidad','Mantenimiento');

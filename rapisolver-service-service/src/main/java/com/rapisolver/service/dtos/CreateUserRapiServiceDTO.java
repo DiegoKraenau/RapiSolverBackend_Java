@@ -10,7 +10,7 @@ public class CreateUserRapiServiceDTO {
     private double price;
     private String serviceName;
     private String categoryName;
-    private Long userId;
+    private Long supplierId;
 
     //TODO: Agregar atributos de relacion
 }
