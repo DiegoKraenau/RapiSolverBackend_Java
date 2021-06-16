@@ -1,5 +1,6 @@
 package com.rapisolver.rapisolveruserservice.util;
 
+import com.rapisolver.rapisolveruserservice.dtos.FindUserResponseDTO;
 import com.rapisolver.rapisolveruserservice.dtos.UserSignUpRequestDTO;
 import com.rapisolver.rapisolveruserservice.dtos.UserSignUpResponseDTO;
 import com.rapisolver.rapisolveruserservice.entity.User;
@@ -19,6 +20,12 @@ public class EntityDtoConverter {
     public UserSignUpResponseDTO mapToSignUpResponse(User savedUser) {
         UserSignUpResponseDTO ob = this.modelMapper.map(savedUser,UserSignUpResponseDTO.class);
         ob.setRole(savedUser.getRole().getName());
+        return ob;
+    }
+
+    public FindUserResponseDTO mapToFindUserResponse(User user) {
+        FindUserResponseDTO ob = this.modelMapper.map(user,FindUserResponseDTO.class);
+        ob.setRole(user.getRole().getName());
         return ob;
     }
 }

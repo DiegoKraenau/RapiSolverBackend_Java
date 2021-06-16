@@ -44,4 +44,6 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public User(String firstName, String lastName, String email, String password, String phone, Date birthdate, Role role) {
+    }
 }
