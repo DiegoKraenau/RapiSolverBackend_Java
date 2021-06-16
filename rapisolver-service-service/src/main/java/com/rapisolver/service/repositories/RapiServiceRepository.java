@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RapiServiceRepository extends JpaRepository<RapiService,Long> {
+    //Push
 }
