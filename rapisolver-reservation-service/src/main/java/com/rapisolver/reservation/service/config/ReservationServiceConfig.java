@@ -1,4 +1,4 @@
-package com.rapisolver.service.config;
+package com.rapisolver.reservation.service.config;
 
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
@@ -11,13 +11,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Getter
 @Configuration
 @PropertySource({"classpath:application.properties"})
-public class ServiceConfig {
-
-    @Value("${userservice.url}")
+public class ReservationServiceConfig {
+    @Value("http://localhost:8089/api/v1/")
     private String userServiceUrl;
+
+    @Value("http://localhost:8082/api/v1/")
+    private String serviceServiceUrl;
 
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
+
 }
