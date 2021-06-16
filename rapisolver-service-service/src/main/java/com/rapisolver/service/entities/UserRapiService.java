@@ -27,7 +27,7 @@ public class UserRapiService {
     private double price;
 
     @Column(nullable = false)
-    private Long userId;
+    private Long supplierId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = false)

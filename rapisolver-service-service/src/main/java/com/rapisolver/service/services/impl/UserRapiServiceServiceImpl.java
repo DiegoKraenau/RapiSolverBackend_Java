@@ -1,6 +1,8 @@
 package com.rapisolver.service.services.impl;
 
+import com.rapisolver.service.client.UserClient;
 import com.rapisolver.service.dtos.CreateUserRapiServiceDTO;
+import com.rapisolver.service.dtos.SupplierDTO;
 import com.rapisolver.service.dtos.UserRapiServiceDTO;
 import com.rapisolver.service.entities.Category;
 import com.rapisolver.service.entities.RapiService;
@@ -35,6 +37,9 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
     @Autowired
     private RapiServiceRepository rapiServiceRepository;
 
+    @Autowired
+    private UserClient userClient;
+
     @Override
     public UserRapiServiceDTO create(CreateUserRapiServiceDTO c) throws RuntimeException {
         // Category Validation
@@ -43,7 +48,10 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
         try {
 
             // Supplier validation
-            // TODO: Implement communication with supplier service
+            // SupplierDTO supplier = userClient.findSupplier(c.getSupplierId()).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
+            //Example
+            SupplierDTO supplierExample = SupplierDTO.builder().id(2L).name("Diego").lastName("Kraenau").email("diegokraenau@gmail.com").build();
+
 
             //Create Service
             RapiService service = RapiService.builder()
@@ -58,8 +66,12 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
                     .detail(c.getDetail())
                     .price(c.getPrice())
                     .build();
+
+            // Mapping response
             userRapiService = repository.save(userRapiService);
-            return mapper.map(userRapiService, UserRapiServiceDTO.class);
+            UserRapiServiceDTO response = mapper.map(userRapiService, UserRapiServiceDTO.class);
+            response.setSupplier(supplierExample);
+            return response;
         } catch (Exception e) {
             throw new InternalServerException("CREATE_USER_SERVICE_ERROR");
         }
