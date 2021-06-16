@@ -65,6 +65,8 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
             UserRapiService userRapiService = UserRapiService.builder()
                     .detail(c.getDetail())
                     .price(c.getPrice())
+                    .service(service)
+                    .supplierId(supplierExample.getId())
                     .build();
 
             // Mapping response
