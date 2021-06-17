@@ -50,30 +50,35 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
             // Supplier validation
             // SupplierDTO supplier = userClient.findSupplier(c.getSupplierId()).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
             //Example
-            SupplierDTO supplierExample = SupplierDTO.builder().id(2L).name("Diego").lastName("Kraenau").email("diegokraenau@gmail.com").build();
+            SupplierDTO supplier = SupplierDTO.builder().id(2L).firstName("Diego").lastName("Kraenau").email("diegokraenau@gmail.com").role("CUSTOMER").build();
+
+            if(supplier.getRole().equals("SUPPLIER")){
+                //Create Service
+                RapiService service = RapiService.builder()
+                        .name(c.getServiceName())
+                        .category(category)
+                        .build();
+                rapiServiceRepository.save(service);
+
+                //Create UserService
+
+                UserRapiService userRapiService = UserRapiService.builder()
+                        .detail(c.getDetail())
+                        .price(c.getPrice())
+                        .service(service)
+                        .supplierId(supplier.getId())
+                        .build();
+
+                // Mapping response
+                userRapiService = repository.save(userRapiService);
+                UserRapiServiceDTO response = UserRapiServiceDTO.builder().id(userRapiService.getId()).price(userRapiService.getPrice()).detail(userRapiService.getDetail()).build();
+                response.setSupplier(supplier);
+                return response;
+            }else{
+                throw new NotFoundException("CANT_PUBLIC");
+            }
 
 
-            //Create Service
-            RapiService service = RapiService.builder()
-                            .name(c.getServiceName())
-                            .category(category)
-                            .build();
-            rapiServiceRepository.save(service);
-
-            //Create UserService
-
-            UserRapiService userRapiService = UserRapiService.builder()
-                    .detail(c.getDetail())
-                    .price(c.getPrice())
-                    .service(service)
-                    .supplierId(supplierExample.getId())
-                    .build();
-
-            // Mapping response
-            userRapiService = repository.save(userRapiService);
-            UserRapiServiceDTO response = mapper.map(userRapiService, UserRapiServiceDTO.class);
-            response.setSupplier(supplierExample);
-            return response;
         } catch (Exception e) {
             throw new InternalServerException("CREATE_USER_SERVICE_ERROR");
         }
