@@ -48,9 +48,9 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
         try {
 
             // Supplier validation
-            // SupplierDTO supplier = userClient.findSupplier(c.getSupplierId()).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
+            SupplierDTO supplier = userClient.findSupplier(c.getSupplierId()).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
             //Example
-            SupplierDTO supplier = SupplierDTO.builder().id(2L).firstName("Diego").lastName("Kraenau").email("diegokraenau@gmail.com").role("CUSTOMER").build();
+            // SupplierDTO supplier = SupplierDTO.builder().id(2L).firstName("Diego").lastName("Kraenau").email("diegokraenau@gmail.com").role("CUSTOMER").build();
 
             if(supplier.getRole().equals("SUPPLIER")){
                 //Create Service
