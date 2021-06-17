@@ -15,6 +15,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class UserServiceClient {
+
     private RestTemplate restTemplate;
 
     @Autowired
@@ -24,10 +25,10 @@ public class UserServiceClient {
         restTemplate = builder.build();
     }
 
-    public Optional<UserDTO> findUserById(Long userId) {
+    public Optional<UserDTO> findUserById(Long id) {
         Optional<UserDTO> result = Optional.empty();
         try {
-            result = Optional.ofNullable(restTemplate.getForObject(config.getUserServiceUrl() + "users-services" + "/{id}", UserDTO.class, userId));
+            result = Optional.ofNullable(restTemplate.getForObject(config.getUserServiceUrl()+"/{id}", UserDTO.class, id));
         }
         catch (HttpClientErrorException ex)   {
             if (ex.getStatusCode() != HttpStatus.NOT_FOUND) {
