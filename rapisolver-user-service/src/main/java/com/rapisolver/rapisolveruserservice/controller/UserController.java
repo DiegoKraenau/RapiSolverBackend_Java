@@ -1,8 +1,9 @@
 package com.rapisolver.rapisolveruserservice.controller;
 
 import com.rapisolver.rapisolveruserservice.dtos.FindUserResponseDTO;
-import com.rapisolver.rapisolveruserservice.dtos.UserSignUpRequestDTO;
-import com.rapisolver.rapisolveruserservice.dtos.UserSignUpResponseDTO;
+import com.rapisolver.rapisolveruserservice.dtos.SupplierServiceDTO;
+import com.rapisolver.rapisolveruserservice.dtos.SupplierSignUpRequestDTO;
+import com.rapisolver.rapisolveruserservice.dtos.SupplierSignUpResponseDTO;
 import com.rapisolver.rapisolveruserservice.enums.ERole;
 import com.rapisolver.rapisolveruserservice.service.UserService;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 public class UserController {
     @Autowired
     UserService userService;
-
+/*
     @ApiOperation(value = "Register new customer user", notes = "None")
     @PostMapping(value = "/user/customer")
     public ResponseEntity<UserSignUpResponseDTO> signUpCustomer(@Valid @RequestBody UserSignUpRequestDTO customer) throws Exception {
@@ -28,13 +29,14 @@ public class UserController {
                 .status(HttpStatus.CREATED)
                 .body(this.userService.registerNewUser(customer, ERole.CUSTOMER));
     }
+    */
 
     @ApiOperation(value = "Register new supplier user", notes = "None")
     @PostMapping(value = "/user/supplier")
-    public ResponseEntity<UserSignUpResponseDTO> signUpSupplier(@Valid @RequestBody UserSignUpRequestDTO supplier) throws Exception {
+    public ResponseEntity<SupplierSignUpResponseDTO> signUpSupplier(@Valid @RequestBody SupplierSignUpRequestDTO supplier) throws Exception {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(this.userService.registerNewUser(supplier, ERole.SUPPLIER));
+                .body(this.userService.registerNewUserSupplier(supplier));
     }
 
     @ApiOperation(value = "Get User", notes = "None")
@@ -43,6 +45,14 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.userService.findUser(userId));
+    }
+
+    @ApiOperation(value = "Get Supplier's Services", notes = "None")
+    @GetMapping(value = "/user/suppliers/{supplierId}/services")
+    public ResponseEntity<SupplierServiceDTO> getSupplierServices(@PathVariable Long supplierId) throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.userService.getSupplierServices(supplierId));
     }
 
 

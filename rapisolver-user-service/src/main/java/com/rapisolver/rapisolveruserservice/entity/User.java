@@ -44,6 +44,10 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
     public User(String firstName, String lastName, String email, String password, String phone, Date birthdate, Role role) {
     }
 }

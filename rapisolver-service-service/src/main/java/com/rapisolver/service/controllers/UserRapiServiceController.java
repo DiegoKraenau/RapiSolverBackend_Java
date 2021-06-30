@@ -1,6 +1,7 @@
 package com.rapisolver.service.controllers;
 
 import com.rapisolver.service.dtos.CreateUserRapiServiceDTO;
+import com.rapisolver.service.dtos.ListUserRapiServiceDTO;
 import com.rapisolver.service.dtos.UserRapiServiceDTO;
 import com.rapisolver.service.services.UserRapiServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserRapiServiceController {
     }
 
     @GetMapping(value = "/supplier/{id}")
-    public ResponseEntity<List<UserRapiServiceDTO>> getServicesBySupplierId(@PathVariable Long id) throws RuntimeException {
+    public ResponseEntity<ListUserRapiServiceDTO> getServicesBySupplierId(@PathVariable Long id) throws RuntimeException {
         return new ResponseEntity<>(service.getServicesBySupplierId(id), HttpStatus.OK);
     }
 

@@ -40,4 +40,13 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ServiceClientException.class)
+    public ResponseEntity<Object> handleServiceClientException(ServiceClientException exception, WebRequest request) {
+        return new ResponseEntity<>(UserServiceExceptionResponse.builder().
+                message(exception.getMessage()).
+                details(request.getDescription(false)).
+                status(HttpStatus.INTERNAL_SERVER_ERROR).
+                timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
+    }
+
 }

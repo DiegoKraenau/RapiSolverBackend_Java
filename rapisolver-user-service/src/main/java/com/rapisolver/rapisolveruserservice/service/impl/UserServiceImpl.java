@@ -1,16 +1,13 @@
 package com.rapisolver.rapisolveruserservice.service.impl;
 
-import com.rapisolver.rapisolveruserservice.config.UserServiceConfig;
-import com.rapisolver.rapisolveruserservice.dtos.FindUserResponseDTO;
-import com.rapisolver.rapisolveruserservice.dtos.UserSignUpRequestDTO;
-import com.rapisolver.rapisolveruserservice.dtos.UserSignUpResponseDTO;
-import com.rapisolver.rapisolveruserservice.entity.Customer;
-import com.rapisolver.rapisolveruserservice.entity.Role;
-import com.rapisolver.rapisolveruserservice.entity.Supplier;
-import com.rapisolver.rapisolveruserservice.entity.User;
+import com.rapisolver.rapisolveruserservice.client.ServiceClient;
+import com.rapisolver.rapisolveruserservice.dtos.*;
+import com.rapisolver.rapisolveruserservice.entity.*;
 import com.rapisolver.rapisolveruserservice.enums.ERole;
 import com.rapisolver.rapisolveruserservice.exceptions.RoleNotFoundException;
+import com.rapisolver.rapisolveruserservice.exceptions.ServiceClientException;
 import com.rapisolver.rapisolveruserservice.exceptions.UserNotFoundException;
+import com.rapisolver.rapisolveruserservice.repository.LocationRepository;
 import com.rapisolver.rapisolveruserservice.repository.RoleRepository;
 import com.rapisolver.rapisolveruserservice.repository.UserRepository;
 import com.rapisolver.rapisolveruserservice.service.UserService;
@@ -20,7 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,6 +30,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
+    ServiceClient serviceClient;
+
     /*
     @Autowired
     PasswordEncoder encoder;
@@ -41,43 +45,67 @@ public class UserServiceImpl implements UserService {
     EntityDtoConverter entityDtoConverter;
 
     @Override
-    public UserSignUpResponseDTO registerNewUser(UserSignUpRequestDTO request, ERole role) throws Exception {
-        Role userRole = roleRepository.findRoleByName(role.name()).orElseThrow(() -> new RoleNotFoundException("ROLE_NOT_FOUND"));
-        User savedUser;
-        if(role.equals(ERole.CUSTOMER)){
-            Customer customer = new Customer();
-            customer.setFirstName(request.getFirstname());
-            customer.setLastName(request.getLastname());
-            customer.setEmail(request.getEmail());
-            customer.setPassword(request.getPassword());
-            customer.setPhone(request.getPhone());
-            customer.setBirthdate(request.getBirthdate());
-            customer.setRole(userRole);
-            customer.setRandomColumn("");
-            System.out.println("-<<<<<<<<<<<<<<Customer"+customer.getEmail());
-            savedUser=this.userRepository.save(customer);
-        } else if (role.equals(ERole.SUPPLIER)){
-            Supplier supplier = new Supplier();
-            supplier.setFirstName(request.getFirstname());
-            supplier.setLastName(request.getLastname());
-            supplier.setEmail(request.getEmail());
-            supplier.setPassword(request.getPassword());
-            supplier.setPhone(request.getPhone());
-            supplier.setBirthdate(request.getBirthdate());
-            supplier.setRole(userRole);
-            supplier.setComercialName("");
-            savedUser=this.userRepository.save(supplier);
-        } else {
-            throw new Exception("ROLE_NO_VALIDO");
-        }
-        UserSignUpResponseDTO userSignUpResponseDTO = this.entityDtoConverter.mapToSignUpResponse(savedUser);
+    public SupplierSignUpResponseDTO registerNewUserSupplier(SupplierSignUpRequestDTO request) throws Exception {
+
+        Role userRole = roleRepository.findRoleByName(ERole.SUPPLIER.name()).orElseThrow(() -> new RoleNotFoundException("ROLE_NOT_FOUND"));
+
+        Location location = new Location();
+        location.setAddress(request.getAddress());
+        location.setCity(request.getCity());
+        location.setCountry(request.getCountry());
+        location.setState(request.getCountry());
+        Location savedLocation = this.locationRepository.save(location);
+
+        Supplier supplier = new Supplier();
+        supplier.setFirstName(request.getFirstname());
+        supplier.setLastName(request.getLastname());
+        supplier.setEmail(request.getEmail());
+        supplier.setPassword(request.getPassword());
+        supplier.setPhone(request.getPhone());
+        supplier.setBirthdate(request.getBirthdate());
+        supplier.setRole(userRole);
+        supplier.setComercialName("");
+        supplier.setLocation(savedLocation);
+        Supplier savedUser = this.userRepository.save(supplier);
+
+        SupplierSignUpResponseDTO userSignUpResponseDTO = this.entityDtoConverter.mapToSignUpResponse(savedUser);
         userSignUpResponseDTO.setRole(userRole.getName());
         return userSignUpResponseDTO;
+
     }
 
     @Override
     public FindUserResponseDTO findUser(Long userId) throws Exception {
         User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("USER_NOT_FOUND"));
-        return this.entityDtoConverter.mapToFindUserResponse(user);
+        Location location = user.getLocation();
+        FindUserResponseDTO responseDTO = this.entityDtoConverter.mapToFindUserResponse(user);
+        responseDTO.setAddress(location.getAddress());
+        responseDTO.setCity(location.getCity());
+        responseDTO.setState(location.getState());
+        responseDTO.setCountry(location.getCountry());
+        return responseDTO;
+    }
+
+    @Override
+    public SupplierServiceDTO getSupplierServices(Long supplierId) throws RuntimeException {
+        User user = this.userRepository.findById(supplierId).orElseThrow(() -> new UserNotFoundException("USER_NOT_FOUND"));
+        ListUserRapiServiceClientDTO listUserRapiServiceClientDTO = this.serviceClient.getSupplierServices(supplierId).orElseThrow(()->new ServiceClientException("ERROR COMUNICACION CON SERVICE CLIENT"));
+
+        List<ServiceDTO> serviceDTOList = listUserRapiServiceClientDTO.getUserRapiServiceDTOList().stream()
+                .map(service -> new ServiceDTO(service.getId(), service.getDetail(),service.getPrice()))
+                .collect(Collectors.toList());
+
+        return SupplierServiceDTO.builder().
+                supplier(SupplierDTO.builder().
+                        email(user.getEmail()).
+                        firstName(user.getFirstName()).
+                        lastName(user.getLastName()).
+                        address(user.getLocation().getAddress()).
+                        city(user.getLocation().getCity()).
+                        state(user.getLocation().getState()).
+                        country(user.getLocation().getCountry()).
+                        build()).
+                serviceList(serviceDTOList).
+                build();
     }
 }

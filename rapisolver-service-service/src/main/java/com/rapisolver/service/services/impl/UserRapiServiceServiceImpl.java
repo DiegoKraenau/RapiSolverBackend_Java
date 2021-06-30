@@ -2,6 +2,7 @@ package com.rapisolver.service.services.impl;
 
 import com.rapisolver.service.client.UserClient;
 import com.rapisolver.service.dtos.CreateUserRapiServiceDTO;
+import com.rapisolver.service.dtos.ListUserRapiServiceDTO;
 import com.rapisolver.service.dtos.SupplierDTO;
 import com.rapisolver.service.dtos.UserRapiServiceDTO;
 import com.rapisolver.service.entities.Category;
@@ -99,7 +100,7 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
 
 
     @Override
-    public List<UserRapiServiceDTO> getServicesBySupplierId(Long id) throws RuntimeException {
+    public ListUserRapiServiceDTO getServicesBySupplierId(Long id) throws RuntimeException {
         SupplierDTO supplier = userClient.findSupplier(id).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
         List<UserRapiService> userRapiServices = repository.findBySupplierId(id).orElseThrow(()->new ServiceNotFoundException("SERVICES_NOT_FOUND"));
         List<UserRapiServiceDTO> listServices = new ArrayList<>();
@@ -108,6 +109,6 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
             ursdto.setSupplier(supplier);
             listServices.add(ursdto);
         }
-        return listServices;
+        return ListUserRapiServiceDTO.builder().userRapiServiceDTOList(listServices).build();
     }
 }

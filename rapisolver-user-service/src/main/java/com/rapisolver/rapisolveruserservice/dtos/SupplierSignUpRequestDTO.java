@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserSignUpRequestDTO {
+public class SupplierSignUpRequestDTO {
     @Column(length = 100, nullable = false)
     private String firstname;
 

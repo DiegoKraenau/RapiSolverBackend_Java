@@ -9,7 +9,7 @@ import javax.persistence.Column;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserSignUpResponseDTO {
+public class SupplierSignUpResponseDTO {
     private Long id;
     private String email;
     private String firstName;

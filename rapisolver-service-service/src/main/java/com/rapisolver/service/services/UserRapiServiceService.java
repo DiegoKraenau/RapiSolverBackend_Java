@@ -1,6 +1,7 @@
 package com.rapisolver.service.services;
 
 import com.rapisolver.service.dtos.CreateUserRapiServiceDTO;
+import com.rapisolver.service.dtos.ListUserRapiServiceDTO;
 import com.rapisolver.service.dtos.UserRapiServiceDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,5 +15,5 @@ public interface UserRapiServiceService {
 
     UserRapiServiceDTO getById(Long id) throws RuntimeException;
 
-    List<UserRapiServiceDTO> getServicesBySupplierId(Long id) throws  RuntimeException;
+    ListUserRapiServiceDTO getServicesBySupplierId(Long id) throws  RuntimeException;
 }
