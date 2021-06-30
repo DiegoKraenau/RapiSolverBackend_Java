@@ -48,4 +48,13 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                     .status(HttpStatus.BAD_REQUEST)
                     .timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundExceptions(UserNotFoundException exception, WebRequest request) {
+        return new ResponseEntity<>(UserServiceExceptionResponse.builder().
+                message(exception.getMessage()).
+                details(request.getDescription(false)).
+                status(HttpStatus.NOT_FOUND).
+                timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
+    }
 }

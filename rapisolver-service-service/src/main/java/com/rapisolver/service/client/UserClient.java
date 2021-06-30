@@ -28,7 +28,7 @@ public class UserClient {
     public Optional<SupplierDTO> findSupplier(Long id){
         Optional<SupplierDTO> result = Optional.empty();
         try {
-            result = Optional.ofNullable(restTemplate.getForObject(config.getUserServiceUrl()+"/supplier/"+"{id}",SupplierDTO.class,id));
+            result = Optional.ofNullable(restTemplate.getForObject(config.getUserServiceUrl()+"/{id}",SupplierDTO.class,id));
         }catch (HttpClientErrorException ex){
             if(ex.getStatusCode() != HttpStatus.NOT_FOUND){
                 throw ex;

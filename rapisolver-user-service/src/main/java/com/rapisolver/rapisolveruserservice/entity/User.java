@@ -47,5 +47,4 @@ public class User implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     List<Recommendation> recommendations;
-
 }

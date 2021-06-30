@@ -76,14 +76,12 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation();
         Location location = locationConverter.convertLocationToEntity(createReservationDTO);
 
-        UserDTO usuario = new UserDTO();
-        SupplierAttentionDTO supplierAttention = new SupplierAttentionDTO();
 
-        usuario = userClient.findUserById(createReservationDTO.getUserId())
+        UserDTO usuario = userClient.findUserById(createReservationDTO.getUserId())
                             .orElseThrow(() -> new BookingNotFoundException("USER_NOT_FOUND"));
 
 
-        supplierAttention = serviceClient.findSupplierAttentionById(createReservationDTO.getSupplierAttentionId())
+        SupplierAttentionDTO supplierAttention = serviceClient.findSupplierAttentionById(createReservationDTO.getSupplierAttentionId())
                 .orElseThrow(() -> new BookingNotFoundException("ATTENTION_NOT_FOUND"));
 
         try {

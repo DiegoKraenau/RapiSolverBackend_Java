@@ -1,19 +1,16 @@
-package com.rapisolver.reservation.service.dtos;
+package com.rapisolver.rapisolveruserservice.dtos;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Getter
 @Setter
-@Builder
-public class UserDTO {
-
+@NoArgsConstructor
+public class FindUserResponseDTO {
     private Long id;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
     private String role;
 }

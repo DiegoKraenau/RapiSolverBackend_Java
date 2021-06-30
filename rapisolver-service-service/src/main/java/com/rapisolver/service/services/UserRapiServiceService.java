@@ -13,4 +13,6 @@ public interface UserRapiServiceService {
     List<UserRapiServiceDTO> getAll() throws RuntimeException;
 
     UserRapiServiceDTO getById(Long id) throws RuntimeException;
+
+    List<UserRapiServiceDTO> getServicesBySupplierId(Long id) throws  RuntimeException;
 }

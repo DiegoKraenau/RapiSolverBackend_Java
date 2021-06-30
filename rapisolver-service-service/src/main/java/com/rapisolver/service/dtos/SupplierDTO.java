@@ -1,15 +1,16 @@
 package com.rapisolver.service.dtos;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SupplierDTO {
     private Long id;
-    private String name;
+    private String firstName;
     private String lastName;
     private String email;
+    private String role;
 }

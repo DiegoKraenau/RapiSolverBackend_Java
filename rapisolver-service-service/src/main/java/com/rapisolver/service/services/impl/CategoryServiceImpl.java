@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 
 @Service
 public class CategoryServiceImpl implements com.rapisolver.service.services.CategoryService {
@@ -30,6 +32,22 @@ public class CategoryServiceImpl implements com.rapisolver.service.services.Cate
             return modelMapper.map(category,CategoryResponseDTO.class);
         } catch (Exception e){
             throw  new ServiceInternalErrorException("CANT_CREATE_CATEGORY");
+        }
+
+    }
+
+    @Override
+    public List<CategoryResponseDTO> getAllCategories() throws RuntimeException {
+        try{
+            List<Category> categoriesList = categoryRepository.findAll();
+            List<CategoryResponseDTO> responseList = new ArrayList<CategoryResponseDTO>();
+            for (Category category:categoriesList){
+                CategoryResponseDTO c = modelMapper.map(category,CategoryResponseDTO.class);
+                responseList.add(c);
+            }
+            return responseList;
+        } catch (Exception e){
+            throw  new ServiceInternalErrorException("NOT_FOUND_CATEGORIES");
         }
 
     }
