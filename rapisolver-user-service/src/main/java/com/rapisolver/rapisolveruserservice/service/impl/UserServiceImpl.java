@@ -108,4 +108,22 @@ public class UserServiceImpl implements UserService {
                 serviceList(serviceDTOList).
                 build();
     }
+
+    @Override
+    public ListSuppliers getAllSuppliers() {
+        List<User> users = this.userRepository.findAllByRoleName(ERole.SUPPLIER.name());
+        List<SupplierDTO> supplierDTOList = users.stream().map(user -> SupplierDTO.builder().
+                email(user.getEmail()).
+                firstName(user.getFirstName()).
+                lastName(user.getLastName()).
+                address(user.getLocation().getAddress()).
+                city(user.getLocation().getCity()).
+                state(user.getLocation().getState()).
+                country(user.getLocation().getCountry()).
+                build()).collect(Collectors.toList());
+
+        return ListSuppliers.builder().
+                supplierDTOList(supplierDTOList).
+                build();
+    }
 }

@@ -1,2 +1,3 @@
-package com.rapisolver.rapisolveruserservice.controller;public class RecommendationController {
+package com.rapisolver.rapisolveruserservice.controller;
+public class RecommendationController {
 }

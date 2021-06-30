@@ -1,9 +1,6 @@
 package com.rapisolver.rapisolveruserservice.controller;
 
-import com.rapisolver.rapisolveruserservice.dtos.FindUserResponseDTO;
-import com.rapisolver.rapisolveruserservice.dtos.SupplierServiceDTO;
-import com.rapisolver.rapisolveruserservice.dtos.SupplierSignUpRequestDTO;
-import com.rapisolver.rapisolveruserservice.dtos.SupplierSignUpResponseDTO;
+import com.rapisolver.rapisolveruserservice.dtos.*;
 import com.rapisolver.rapisolveruserservice.enums.ERole;
 import com.rapisolver.rapisolveruserservice.service.UserService;
 import io.swagger.annotations.Api;
@@ -31,6 +28,8 @@ public class UserController {
     }
     */
 
+
+
     @ApiOperation(value = "Register new supplier user", notes = "None")
     @PostMapping(value = "/user/supplier")
     public ResponseEntity<SupplierSignUpResponseDTO> signUpSupplier(@Valid @RequestBody SupplierSignUpRequestDTO supplier) throws Exception {
@@ -53,6 +52,14 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.userService.getSupplierServices(supplierId));
+    }
+
+    @ApiOperation(value = "Get All Suppliers", notes = "None")
+    @GetMapping(value = "/user/suppliers")
+    public ResponseEntity<ListSuppliers> getAllSuppliers() throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.userService.getAllSuppliers());
     }
 
 
