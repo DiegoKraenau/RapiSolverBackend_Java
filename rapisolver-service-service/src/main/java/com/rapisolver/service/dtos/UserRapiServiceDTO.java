@@ -12,6 +12,4 @@ public class UserRapiServiceDTO {
     private String detail;
     private double price;
     private SupplierDTO supplier;
-
-    //TODO: Agregar atributos de relacion
 }
