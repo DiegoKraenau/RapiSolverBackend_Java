@@ -31,6 +31,24 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RecommendationNotFoundException.class)
+    public ResponseEntity<Object> handleRecommendationNotFound(RecommendationNotFoundException exception, WebRequest request) {
+        return new ResponseEntity<>(UserServiceExceptionResponse.builder()
+                    .message(exception.getMessage())
+                    .details(request.getDescription(false))
+                    .status(HttpStatus.NOT_FOUND)
+                    .timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RecommendationScoreNotValidException.class)
+    public ResponseEntity<Object> handleRecommendationScoreNotValid(RecommendationScoreNotValidException exception, WebRequest request) {
+        return new ResponseEntity<>(UserServiceExceptionResponse.builder()
+                    .message(exception.getMessage())
+                    .details(request.getDescription(false))
+                    .status(HttpStatus.BAD_REQUEST)
+                    .timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundExceptions(UserNotFoundException exception, WebRequest request) {
         return new ResponseEntity<>(UserServiceExceptionResponse.builder().
@@ -39,5 +57,4 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 status(HttpStatus.NOT_FOUND).
                 timestamp(LocalDateTime.now()).build(), HttpStatus.NOT_FOUND);
     }
-
 }
