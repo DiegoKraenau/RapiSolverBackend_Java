@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Table(name="LOCATION")
 @Entity
 public class Location {
