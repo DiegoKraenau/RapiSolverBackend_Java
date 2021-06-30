@@ -1,12 +1,12 @@
 package com.rapisolver.service.dtos;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRapiServiceDTO {
     private Long id;
     private String detail;

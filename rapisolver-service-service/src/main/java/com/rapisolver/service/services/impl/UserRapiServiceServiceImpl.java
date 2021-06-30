@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,5 +95,19 @@ public class UserRapiServiceServiceImpl implements UserRapiServiceService {
     public UserRapiServiceDTO getById(Long id) throws RuntimeException {
         UserRapiService userRapiServiceDB = repository.findById(id).orElseThrow(() -> new ServiceNotFoundException("USER_SERVICE_NOT_FOUND"));
         return mapper.map(userRapiServiceDB, UserRapiServiceDTO.class);
+    }
+
+
+    @Override
+    public List<UserRapiServiceDTO> getServicesBySupplierId(Long id) throws RuntimeException {
+        SupplierDTO supplier = userClient.findSupplier(id).orElseThrow(()->new NotFoundException("SUPPLIER_NOT_FOUND"));
+        List<UserRapiService> userRapiServices = repository.findBySupplierId(id).orElseThrow(()->new ServiceNotFoundException("SERVICES_NOT_FOUND"));
+        List<UserRapiServiceDTO> listServices = new ArrayList<>();
+        for (UserRapiService urs:userRapiServices){
+            UserRapiServiceDTO ursdto = mapper.map(urs,UserRapiServiceDTO.class);
+            ursdto.setSupplier(supplier);
+            listServices.add(ursdto);
+        }
+        return listServices;
     }
 }

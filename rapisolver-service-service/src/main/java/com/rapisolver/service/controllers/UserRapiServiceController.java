@@ -32,4 +32,9 @@ public class UserRapiServiceController {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/supplier/{id}")
+    public ResponseEntity<List<UserRapiServiceDTO>> getServicesBySupplierId(@PathVariable Long id) throws RuntimeException {
+        return new ResponseEntity<>(service.getServicesBySupplierId(id), HttpStatus.OK);
+    }
+
 }
