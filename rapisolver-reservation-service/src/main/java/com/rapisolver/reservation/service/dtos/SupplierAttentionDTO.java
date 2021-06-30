@@ -7,9 +7,8 @@ import lombok.Setter;
 @Setter
 public class SupplierAttentionDTO {
 
-    private Long supplierId;
-
     private Long id;
+    private String detail;
     private double price;
 
     private AttentionDTO attention;

@@ -12,10 +12,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 @PropertySource({"classpath:application.properties"})
 public class ReservationServiceConfig {
-    @Value("http://localhost:8089/api/v1/")
+    @Value("http://localhost:8090/api/v1/user")
     private String userServiceUrl;
 
-    @Value("http://localhost:8082/api/v1/")
+    @Value("http://localhost:8089/api/v1/users-services")
     private String serviceServiceUrl;
 
     @Bean

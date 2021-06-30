@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ReservationController {
     @Autowired
@@ -57,16 +58,13 @@ public class ReservationController {
                 reservationDTO
         );
     }
-    @ResponseStatus(HttpStatus.OK)
+
     @PostMapping("/createReservation")
     public RapisolverResponse<ReservationDTO> saveReservation(@RequestBody @Valid CreateReservationDTO createReservationDTO) throws RapisolverException {
-        return new RapisolverResponse<>(
-                200,
-                String.valueOf(HttpStatus.OK),
-                "OK",
-                reservationService.createReservation(createReservationDTO)
-        );
+        ReservationDTO  reservation = reservationService.createReservation(createReservationDTO);
+        return new RapisolverResponse<>(200, "OK", "OK",reservation);
     }
+
     @PutMapping("/reservation/{reservationId}")
     private RapisolverResponse<ReservationDTO> updateReservationById(
             @PathVariable Long reservationId,
@@ -101,11 +99,7 @@ public class ReservationController {
         ReservationDTO reservationDTO;
         reservationDTO = reservationService.findById(reservationId);
         reservationService.deleteReservation(reservationId);
-        return new RapisolverResponse<>(
-                200,
-                "OK",
-                "Reservacion borrada correctamente",
-                reservationDTO
+        return new RapisolverResponse<>(200, "OK", "Reservacion borrada correctamente", reservationDTO
         );
     }
 }

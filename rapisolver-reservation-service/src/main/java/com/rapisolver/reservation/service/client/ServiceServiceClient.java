@@ -28,7 +28,7 @@ public class ServiceServiceClient {
     public Optional<SupplierAttentionDTO> findSupplierAttentionById(Long supplierAttentionId) {
         Optional<SupplierAttentionDTO> result = Optional.empty();
         try {
-            result = Optional.ofNullable(restTemplate.getForObject(config.getServiceServiceUrl() + "SupplierAttention" + "/{id}", SupplierAttentionDTO.class, supplierAttentionId));
+            result = Optional.ofNullable(restTemplate.getForObject(config.getServiceServiceUrl() + "/{id}", SupplierAttentionDTO.class, supplierAttentionId));
         }
         catch (HttpClientErrorException ex)   {
             if (ex.getStatusCode() != HttpStatus.NOT_FOUND) {
