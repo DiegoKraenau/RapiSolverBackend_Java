@@ -4,6 +4,7 @@ import com.rapisolver.reservation.service.dtos.*;
 import com.rapisolver.reservation.service.exceptions.RapisolverException;
 import com.rapisolver.reservation.service.response.RapisolverResponse;
 import com.rapisolver.reservation.service.services.ReservationService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
+    @ApiOperation(value = "Get All Reservations", notes = "None")
     @GetMapping(value = "/reservation")
     public RapisolverResponse<List<ReservationDTO>> getAll(){
         List<ReservationDTO> reservationDTOS;
@@ -37,6 +39,8 @@ public class ReservationController {
                 reservationDTOS
         );
     }
+
+    @ApiOperation(value = "Get Reservation", notes = "None")
     @GetMapping("/reservation/{reservationId}")
     private RapisolverResponse<ReservationDTO> getByReservationId(
             @PathVariable Long reservationId
@@ -59,12 +63,14 @@ public class ReservationController {
         );
     }
 
+    @ApiOperation(value = "Create a Reservation", notes = "None")
     @PostMapping("/createReservation")
     public RapisolverResponse<ReservationDTO> saveReservation(@RequestBody @Valid CreateReservationDTO createReservationDTO) throws RapisolverException {
         ReservationDTO  reservation = reservationService.createReservation(createReservationDTO);
         return new RapisolverResponse<>(200, "OK", "OK",reservation);
     }
 
+    @ApiOperation(value = "Update a Reservation", notes = "None")
     @PutMapping("/reservation/{reservationId}")
     private RapisolverResponse<ReservationDTO> updateReservationById(
             @PathVariable Long reservationId,
@@ -93,6 +99,7 @@ public class ReservationController {
         );
     }
 
+    @ApiOperation(value = "Delete a Reservation", notes = "None")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/reservation/{reservationId}")
     public RapisolverResponse<ReservationDTO> deleteReservation(@RequestParam Long reservationId) throws RapisolverException {
